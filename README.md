@@ -2,11 +2,11 @@
 Datatable with visulaforce salesforce. It is a generic component with inline edit functionality. 
 
 Features
-- [ ] Inline edit functionality.
-- [ ] Pagination.
-- [ ] Global search.
-- [ ] Sorting
-- [ ] Fixed header
+- Inline edit functionality.
+- Pagination.
+- Global search.
+- Sorting
+- Fixed header
 
 
 Use this component in visualforce page 
