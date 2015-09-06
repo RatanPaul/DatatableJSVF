@@ -1,0 +1,5 @@
+<apex:page showHeader="true"  sidebar="true" standardStylesheets="true" >
+    <apex:form id="frm">
+      <c:RN_GenericDataTableJS stringQuery="SELECT Id, Name, Phone, ratan__Active__c, CreatedDate FROM Account LIMIT 100" />
+    </apex:form>
+</apex:page>

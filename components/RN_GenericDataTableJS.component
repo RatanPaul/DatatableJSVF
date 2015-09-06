@@ -1,0 +1,98 @@
+<!--
+/* CreatedBy   : Ratan Paul
+/* CreatedDate : 06/Sep/2015 
+-->
+<apex:component controller="RN_GenericDataTableJS" allowDML="true">
+   <apex:attribute name="stringQuery" type="string" description="This is string query" assignTo="{!strQuery}"></apex:attribute>
+   <apex:outputPanel id="op">
+      <head>
+         <apex:stylesheet value="{!URLFOR($Resource.RN_DatatableJS, '/css/jquery.dataTables.css')}"/>
+         <style>
+            table.dataTable thead .sorting_asc {
+            background: url("{!URLFOR($Resource.RN_DatatableJS, '/images/sort_asc.png')}") no-repeat center left;
+            }
+            table.dataTable thead .sorting_desc { 
+            background: url("{!URLFOR($Resource.RN_DatatableJS, '/images/sort_desc.png')}") no-repeat center left;
+            }
+            table.dataTable thead .sorting {
+            background: url("{!URLFOR($Resource.RN_DatatableJS, '/images/sort_both.png')}") no-repeat center left;
+            }
+            .no-js #loader { display: none;  }
+            .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+            .se-pre-con {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(/auraFW/resources/aura/images/spinner.gif) center no-repeat #fff;
+            }
+         </style>
+      </head>
+      <div class="se-pre-con"></div>
+      <table id="dataTableId" class="display" cellspacing="0" width="100%">
+         <thead style="background-color:#F5F5F5">
+            <tr>
+               <!--repeat here-->
+               <apex:repeat value="{!lstFields}" var="field">
+                  <td >
+                     <apex:outputText value="{!field}" />
+                  </td>
+               </apex:repeat>
+            </tr>
+         </thead>
+         <tbody>
+            <!--repeat here-->
+            <apex:repeat value="{!LstSobject}" var="lst">
+            </apex:repeat>
+            <apex:repeat value="{!lstSobj}" var="lst">
+               <tr>
+                  <apex:repeat value="{!lstFieldAPIs}" var="field">
+                     <!--repeat here-->
+                     <td class="tdData" >
+                        <apex:outputField value="{!lst[field]}" rendered="{!IF(field != 'Id','true','false')}">
+                           <apex:inlineEditSupport event="ondblclick" />
+                        </apex:outputField>
+                        <a href="/{!lst[field]}" style="display:{!IF(field == 'Id','inline','none')}">View Record</a>
+                     </td>
+                  </apex:repeat>
+               </tr>
+            </apex:repeat>
+         </tbody>
+      </table>
+      <apex:actionFunction action="{!dummy}" name="dummyAF" oncomplete="UpdateAF()"  status="loading"/>
+      <apex:actionFunction action="{!updateRecords}" rerender="op" name="UpdateAF" status="loading" />
+      <apex:actionstatus id="loading" startText="Requesting...">
+         <apex:facet name="start">
+            <div id="salesforceSource_blurybackground" style="position:absolute; left:1px; top:1px; width:100%; height:100%; text-align:center; vertical-align: middle; background-color: #dcdcdc; opacity:0.7;filter:alpha(opacity=60)"></div>
+            <div id="ManageMembersViewport_loading" class="waitingSearchDiv" style="width: 100%; height: 80%; display: ''; ">
+               <div style="width: 144px;vertical-align: middle;" class="waitingHolder">
+                  <table align="center" valign="top" style="width: 100%; height: 30%">
+                     <tr align="center" valign="top" style="width: 100%; height: 30%">
+                        <td valign="top"><img src="/auraFW/resources/aura/images/spinner.gif"/><span class="waitingDescription"><b>Loading...</b></span></td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+            <div id="ManageMembersViewport_loading" class="waitingSearchDiv" style="width: 100%; height: 100%; display: ''; "/>
+            <script>document.getElementById('ManageMembersViewport_loading').height = window.innerHeight * (3/4);</script>
+         </apex:facet>
+         <apex:facet name="stop"></apex:facet>
+      </apex:actionstatus>
+         <apex:includeScript value="{!URLFOR($Resource.RN_DatatableJS, '/js/main.js')}"/>
+         <script>
+            $(document).ready(function() {
+                // Animate loader off screen
+                $(".se-pre-con").fadeOut("slow");
+            
+                var table = $('#dataTableId').DataTable();
+                $('#dataTableId').floatThead();
+                
+                $('.tdData :hidden').change(function(e) {
+                      dummyAF();
+                });
+            });
+         </script>
+   </apex:outputPanel>
+</apex:component>
