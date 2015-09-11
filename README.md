@@ -16,3 +16,5 @@ Use this component in visualforce page
 [Website](http://ratan92paul.github.io/DatatableJSVF)
 
 [Demo Image](https://drive.google.com/file/d/0B5PMI0wQcOqlMTVZOFJPakFpemM/view?usp=sharing)
+
+[Installation package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t900000002Zkf)
